@@ -15,7 +15,7 @@ public class CommentController {
     private CommentService commentService;
 
     @DeleteMapping("/posts/{postId}/comments/{commentId}")
-    public ResponseEntity<String> deletebyCommentId(@PathVariable("postId") String postId, @PathVariable("commentId") String commentId){
+    public ResponseEntity<String> deleteCommentBytId(@PathVariable("postId") String postId, @PathVariable("commentId") String commentId){
         return new ResponseEntity<>(commentService.deleteCommentById(commentId), HttpStatus.ACCEPTED);
     }
 }
