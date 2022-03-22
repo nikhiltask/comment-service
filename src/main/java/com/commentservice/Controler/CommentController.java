@@ -17,6 +17,12 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
+
+    @GetMapping("/posts/{postId}/comments/count")
+    public ResponseEntity<Integer> commentCount(@PathVariable("postId") String postId){
+        return  new ResponseEntity<>(commentService.countComments(postId), HttpStatus.ACCEPTED);
+    }
+
     @GetMapping("/posts/{postId}/comments")
     public ResponseEntity<List<CommentModel>> allComments(){
         return new ResponseEntity<List<CommentModel>>(commentService.allComments(), HttpStatus.ACCEPTED);
