@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+
+import java.time.LocalDateTime;
+
 import java.util.List;
 
 
@@ -16,6 +19,13 @@ public class CommentService {
 
     @Autowired
     private CommentRepository commentRepository;
+
+    public CommentModel postComment(CommentModel commentModel, String postId) {
+        commentModel.setPostID(postId);
+        commentModel.setCreatedAt(LocalDateTime.now());
+        commentModel.setUpdatedAt(LocalDateTime.now());
+        return commentRepository.save(commentModel);
+    }
 
     public CommentModel findByCommentId(String commentId){
         return commentRepository.findById(commentId).get();
