@@ -9,4 +9,10 @@ public class CommentService {
 
     @Autowired
     private CommentRepository commentRepository;
+
+    public int countComments(String postId){
+        int count=commentRepository.findBypostID(postId).size();
+        return count;
+
+    }
 }
