@@ -14,6 +14,12 @@ public class CommentService {
     private CommentRepository commentRepository;
 
 
+    public String deleteCommentById(String Id){
+        commentRepository.deleteById(Id);
+        return "Delete ID "+Id+" from DB";
+    }
+
+
     public int countComments(String postId){
         int count=commentRepository.findBypostID(postId).size();
         return count;
@@ -23,6 +29,7 @@ public class CommentService {
     public List<CommentModel> allComments(){
         return commentRepository.findAll();
     }
+
 
 
 
