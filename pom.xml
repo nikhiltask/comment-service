@@ -9,10 +9,17 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.</groupId>
+<<<<<<< HEAD
 	<artifactId>post-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>post-service</name>
 	<description>Service for managing posts </description>
+=======
+	<artifactId>comment-service</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>comment-service</name>
+	<description>Service for managing comments </description>
+>>>>>>> 46f0702f3bbcb698eb13da2d741d12aeee2fa7b8
 	<properties>
 		<java.version>1.8</java.version>
 		<spring-cloud.version>2021.0.1</spring-cloud.version>
