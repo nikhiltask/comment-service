@@ -1,5 +1,6 @@
 package com.commentservice.Controler;
 
+import com.commentservice.Model.CommentDto;
 import com.commentservice.Model.CommentModel;
 import com.commentservice.Service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import javax.ws.rs.QueryParam;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 
@@ -31,13 +33,18 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
+//    @PostMapping("/posts/{postId}/comments")
+//    public ResponseEntity<CommentModel> postComment(@Valid @RequestBody CommentModel commentModel, @PathVariable("postId") String postId) {
+//        return new ResponseEntity<>(commentService.postComment(commentModel, postId), HttpStatus.ACCEPTED);
+//    }
+
     @PostMapping("/posts/{postId}/comments")
-    public ResponseEntity<CommentModel> postComment(@Valid @RequestBody CommentModel commentModel, @PathVariable("postId") String postId) {
+    public ResponseEntity<CommentDto> postComment(@Valid @RequestBody CommentModel commentModel, @PathVariable("postId") String postId) {
         return new ResponseEntity<>(commentService.postComment(commentModel, postId), HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/posts/{postId}/comments/{commentId}")
-    public ResponseEntity<CommentModel> findByCommentId(@PathVariable("postId") String postId, @PathVariable("commentId") String commentId){
+    public ResponseEntity<CommentDto> findByCommentId(@PathVariable("postId") String postId, @PathVariable("commentId") String commentId){
         return new ResponseEntity<>(commentService.findByCommentId(commentId), HttpStatus.ACCEPTED);
     }
 
@@ -57,12 +64,16 @@ public class CommentController {
         return  new ResponseEntity<>(commentService.countComments(postId), HttpStatus.ACCEPTED);
     }
 
+//    @GetMapping("/posts/{postId}/comments")
+//    public ResponseEntity<List<CommentModel>> allComments(){
+//        return new ResponseEntity<List<CommentModel>>(commentService.allComments(), HttpStatus.ACCEPTED);
+//    }
+
+
     @GetMapping("/posts/{postId}/comments")
-    public ResponseEntity<List<CommentModel>> allComments(){
-        return new ResponseEntity<List<CommentModel>>(commentService.allComments(), HttpStatus.ACCEPTED);
+    public ResponseEntity< List<CommentDto>> showCommentsByPostId(@PathVariable("postId") String postId, @QueryParam("page") Integer page, @QueryParam("pageSize") Integer pageSize) {
+        return new ResponseEntity<>(commentService.allComments(postId,page,pageSize), HttpStatus.ACCEPTED);
     }
-
-
 
 }
 
