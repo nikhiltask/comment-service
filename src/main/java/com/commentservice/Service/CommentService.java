@@ -42,7 +42,7 @@ public class CommentService {
 
     public CommentDto feignStructure(CommentModel commentModel) {
         CommentDto commentDTO = new CommentDto(commentModel.getCommentID(),
-                UserFeign.findByID(commentModel.getCommentedBy()).getFirstName(),
+                UserFeign.findByID(commentModel.getCommentedBy()),
                 commentModel.getComment(), commentModel.getCreatedAt(), commentModel.getUpdatedAt(),
                 likeService.countLike(commentModel.getCommentID()));
         return commentDTO;
@@ -89,7 +89,7 @@ public class CommentService {
         List<CommentDto> commentDTOS = new ArrayList<>();
         for (CommentModel commentModel : commentModels) {
             CommentDto commentDTO1 = new CommentDto(commentModel.getCommentID(),
-                    UserFeign.findByID(commentModel.getCommentedBy()).getFirstName(),
+                    UserFeign.findByID(commentModel.getCommentedBy()),
                     commentModel.getComment(), commentModel.getCreatedAt(), commentModel.getUpdatedAt(),
                     likeService.countLike(commentModel.getCommentID()));
 //                    likeService.countLike(commentModel.getCommentID()));

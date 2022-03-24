@@ -19,7 +19,7 @@ public class CommentDto {
     private String commentID;
 
     @NotEmpty(message = "commentedBy is required")
-    private String commentedBy;
+    private User  commentedBy;
 
     @NotEmpty(message = "comment is required")
     private String comment;
