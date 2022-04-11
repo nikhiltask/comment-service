@@ -1,5 +1,7 @@
 package com.commentservice.Model;
 
+import com.commentservice.Enum.BloodGroup;
+import com.commentservice.Enum.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,23 +35,21 @@ public class User {
     private String lastName;
 
     @NotEmpty(message = "Phone Number is required")
-    @Size(min=10,max = 10)
+    @Size(min = 10, max = 10)
     private String phoneNumber;
 
     @NotNull(message = "Date of Birth is required")
     private Date dateOfBirth;
 
-    @NotEmpty(message = "Gender is required")
-    private String gender;
+    private Gender gender;
 
     @NotEmpty(message = "Address is required")
-    private String address ;
+    private String address;
 
     @NotEmpty(message = "Employee Number is required")
     private String employeeNumber;
 
-    @NotEmpty(message = "Blood Group is required")
-    private String bloodGroup;
+    private BloodGroup bloodGroup;
 
     @NotEmpty(message = "Email is required")
     private String email;

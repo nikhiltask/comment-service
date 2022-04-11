@@ -32,7 +32,7 @@ public class CommentController {
     }
 
     @PutMapping("/{commentId}")
-    public ResponseEntity<CommentModel> updateComment(@RequestBody @Valid CommentModel commentModel, @PathVariable("postId") String postId, @PathVariable("commentId") String commentId){
+    public ResponseEntity<CommentDto> updateComment(@RequestBody @Valid CommentModel commentModel, @PathVariable("postId") String postId, @PathVariable("commentId") String commentId){
         return new ResponseEntity<>(commentService.commentUpdate(commentModel,postId,commentId), HttpStatus.ACCEPTED);
     }
 
@@ -49,7 +49,7 @@ public class CommentController {
 
 
     @GetMapping()
-    public ResponseEntity< List<CommentDto>> showCommentsByPostId(@PathVariable("postId") String postId, @QueryParam("page") Integer page, @QueryParam("pageSize") Integer pageSize) {
+    public ResponseEntity< List<CommentDto>> allComments(@PathVariable("postId") String postId, @QueryParam("page") Integer page, @QueryParam("pageSize") Integer pageSize) {
         return new ResponseEntity<>(commentService.allComments(postId,page,pageSize), HttpStatus.ACCEPTED);
     }
 

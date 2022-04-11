@@ -1,5 +1,6 @@
 package com.commentservice.Service;
 
+import com.commentservice.ConstantFiles.ConstantNames;
 import com.commentservice.Exception.CommentNotFoundException;
 import com.commentservice.Feign.LikeService;
 import com.commentservice.Feign.UserService;
@@ -41,10 +42,10 @@ public class CommentService {
     }
 
     public CommentDto feignStructure(CommentModel commentModel) {
-        CommentDto commentDTO = new CommentDto(commentModel.getCommentID(),
+        CommentDto commentDTO=new CommentDto(commentModel.getCommentID(),commentModel.getComment(),
                 UserFeign.findByID(commentModel.getCommentedBy()),
-                commentModel.getComment(), commentModel.getCreatedAt(), commentModel.getUpdatedAt(),
-                likeService.countLike(commentModel.getCommentID()));
+                likeService.countLike(commentModel.getCommentID()),
+                commentModel.getCreatedAt(),commentModel.getUpdatedAt());
         return commentDTO;
     }
 
@@ -53,26 +54,39 @@ public class CommentService {
         try {
             return feignStructure(commentModel);
         } catch (Exception e) {
-            throw new CommentNotFoundException("Comment Not Found");
+            throw new CommentNotFoundException(ConstantNames.ERROR_CODE);
         }
     }
 
-    public CommentModel commentUpdate(CommentModel commentModel, String postId, String commentId) {
+    public CommentDto commentUpdate(CommentModel commentModel, String postId, String commentId) {
         commentModel.setCommentID(commentId);
         commentModel.setUpdatedAt(LocalDateTime.now());
         commentModel.setCreatedAt(commentRepository.findById(commentId).get().getCreatedAt());
         commentModel.setPostID(postId);
-        return commentRepository.save(commentModel);
+        commentRepository.save(commentModel);
+        return feignStructure(commentModel);
     }
 
     public String deleteCommentById(String Id) {
-        commentRepository.deleteById(Id);
-        return "Delete ID " + Id + " from DB";
+        if(commentRepository.findById(Id).isPresent()) {
+            commentRepository.deleteById(Id);
+            return ConstantNames.SUCCESS_CODE;
+        }else{
+            throw new CommentNotFoundException(ConstantNames.ERROR_CODE);
+        }
     }
 
     public int countComments(String postId) {
-        int count = commentRepository.findBypostID(postId).size();
-        return count;
+//        int count = commentRepository.findBypostID(postId).size();
+//        return count;
+            List<CommentModel> allData = commentRepository.findAll();
+            int count = 0;
+            for (CommentModel comment : allData) {
+                if (comment.getPostID().equals(postId)) {
+                    count++;
+                }
+            }
+            return count;
 
     }
 
@@ -88,11 +102,10 @@ public class CommentService {
         List<CommentModel> commentModels = commentRepository.findBypostID(postId, firstPage);
         List<CommentDto> commentDTOS = new ArrayList<>();
         for (CommentModel commentModel : commentModels) {
-            CommentDto commentDTO1 = new CommentDto(commentModel.getCommentID(),
+            CommentDto commentDTO1=new CommentDto(commentModel.getCommentID(),commentModel.getComment(),
                     UserFeign.findByID(commentModel.getCommentedBy()),
-                    commentModel.getComment(), commentModel.getCreatedAt(), commentModel.getUpdatedAt(),
-                    likeService.countLike(commentModel.getCommentID()));
-//                    likeService.countLike(commentModel.getCommentID()));
+                    likeService.countLike(commentModel.getCommentID()),
+                    commentModel.getCreatedAt(),commentModel.getUpdatedAt());
             commentDTOS.add(commentDTO1);
         }
         return commentDTOS;

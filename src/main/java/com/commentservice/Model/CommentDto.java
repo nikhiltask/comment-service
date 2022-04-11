@@ -17,15 +17,15 @@ public class CommentDto {
 
     @Id
     private String commentID;
-
+    @NotEmpty(message = "comment is required")
+    private String comment;
     @NotEmpty(message = "commentedBy is required")
     private User  commentedBy;
 
-    @NotEmpty(message = "comment is required")
-    private String comment;
+    private int likesCount;
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
 
-    private int likesCount;
+
 }
